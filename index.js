@@ -22,7 +22,7 @@ app.use("/uploads", express.static(path.join(path.resolve(), "/uploads")));
 app.use(
   cors({
     credentials: true,
-    origin: `${process.env.CLIENT_SIDE_URL} || http://localhost:3000`,
+    origin: `http://localhost:3000`,
   })
 );
 mongoose.connect(
