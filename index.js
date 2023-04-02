@@ -18,7 +18,7 @@ dotenv.config()
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
-app.use("/uploads", express.static(path.join(path.resolve(), "/uploads")));
+// app.use("/uploads", express.static(path.join(path.resolve(), "/uploads")));
 app.use(
   cors({
     credentials: true,
@@ -92,29 +92,29 @@ app.post("/api/logout", (req, res) => {
   res.cookie("token", "").json(true);
 });
 
-app.post("/uploads-by-link", async (req, res) => {
-  const { link } = req.body;
-  const newName = "photo" + Date.now() + ".jpg";
-  await imageDownloader.image({
-    url: link,
-    dest: path.join(path.resolve(), "/uploads/", newName),
-  });
-  res.json(newName);
-});
+// app.post("/uploads-by-link", async (req, res) => {
+//   const { link } = req.body;
+//   const newName = "photo" + Date.now() + ".jpg";
+//   await imageDownloader.image({
+//     url: link,
+//     dest: path.join(path.resolve(), "/uploads/", newName),
+//   });
+//   res.json(newName);
+// });
 
-const photosMiddleware = multer({ dest: "uploads" });
-app.post("/uploads", photosMiddleware.array("photos", 100), (req, res) => {
-  const uploadPhoto = [];
-  for (let i = 0; i < req.files.length; i++) {
-    const { path, originalname } = req.files[i];
-    const parts = originalname.split(".");
-    const ext = parts[parts.length - 1];
-    const newPath = path + "." + ext;
-    fs.renameSync(path, newPath);
-    uploadPhoto.push(newPath.substring(8));
-  }
-  res.json(uploadPhoto);
-});
+// const photosMiddleware = multer({ dest: "uploads" });
+// app.post("/uploads", photosMiddleware.array("photos", 100), (req, res) => {
+//   const uploadPhoto = [];
+//   for (let i = 0; i < req.files.length; i++) {
+//     const { path, originalname } = req.files[i];
+//     const parts = originalname.split(".");
+//     const ext = parts[parts.length - 1];
+//     const newPath = path + "." + ext;
+//     fs.renameSync(path, newPath);
+//     uploadPhoto.push(newPath.substring(8));
+//   }
+//   res.json(uploadPhoto);
+// });
 
 app.post("/api/createPlaces", (req, res) => {
   const { token } = req.cookies;
